@@ -7,10 +7,10 @@ import CryptoKit
 import Foundation
 
 public struct MembershipProof {
-    let s: Array<mod_int>
-    let c: Array<mod_int>
+    public let s: Array<mod_int>
+    public let c: Array<mod_int>
 
-    init(public_key: PublicKey, plain_text: PlainText, cipher_text: CipherText, domain: Array<mod_int>) {
+    public init(public_key: PublicKey, plain_text: PlainText, cipher_text: CipherText, domain: Array<mod_int>) {
         var s: Array<mod_int> = Array<mod_int>(repeating: mod_int.zero, count: domain.count)
         var c: Array<mod_int> = Array<mod_int>(repeating: mod_int.zero, count: domain.count)
 
@@ -61,7 +61,7 @@ public struct MembershipProof {
         self.c = c
     }
 
-    func verify(public_key: PublicKey, cipher_text: CipherText, domain: Array<mod_int>) -> Bool {
+    public func verify(public_key: PublicKey, cipher_text: CipherText, domain: Array<mod_int>) -> Bool {
         assert(s.count == domain.count)
 
         var sha512: SHA512 = SHA512()

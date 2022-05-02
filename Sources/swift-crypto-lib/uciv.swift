@@ -9,7 +9,7 @@ import Foundation
 public struct PreImages {
     let pre_images: Array<mod_int>
 
-    init(public_key: PublicKey, domain: Array<mod_int>) {
+    public init(public_key: PublicKey, domain: Array<mod_int>) {
         pre_images = domain.map { element in mod_int.rand(upper_bound: public_key.q.value) }
     }
 }
@@ -17,7 +17,7 @@ public struct PreImages {
 public struct Images {
     let images: Array<mod_int>
 
-    init(generator: mod_int, pre_images: PreImages) {
+    public init(generator: mod_int, pre_images: PreImages) {
         images = pre_images.pre_images.map { pre_image in
             generator.pow(power: pre_image)
         }
@@ -28,7 +28,7 @@ public struct CastAsIntendedProof {
     let s1, s2, h1, h2: Array<mod_int>
     let hash_result: mod_int
 
-    init(public_key: PublicKey, plain_text: PlainText, cipher_text: CipherText, domain: Array<mod_int>, pre_images: PreImages, images: Images) {
+    public init(public_key: PublicKey, plain_text: PlainText, cipher_text: CipherText, domain: Array<mod_int>, pre_images: PreImages, images: Images) {
         assert(domain.count == pre_images.pre_images.count)
         assert(pre_images.pre_images.count == images.images.count)
 
@@ -104,7 +104,7 @@ public struct CastAsIntendedProof {
         self.hash_result = s
     }
 
-    func verify(public_key: PublicKey,cipher_text: CipherText, domain: Array<mod_int>, images: Images) -> Bool{
+    public func verify(public_key: PublicKey,cipher_text: CipherText, domain: Array<mod_int>, images: Images) -> Bool{
         let c1 = cipher_text.g_r
         let c2 = cipher_text.g_v__s
 

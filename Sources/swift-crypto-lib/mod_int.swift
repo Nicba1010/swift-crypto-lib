@@ -1,7 +1,7 @@
 import BigInt
 
-extension UInt8 {
-    func pow(exp: UInt8) -> UInt8 {
+public extension UInt8 {
+    public func pow(exp: UInt8) -> UInt8 {
         var result: UInt8 = 1
 
         for _ in 0..<exp {
@@ -12,8 +12,8 @@ extension UInt8 {
     }
 }
 
-extension BigInt {
-    func to_bytes_le() -> Array<UInt8> {
+public extension BigInt {
+    public func to_bytes_le() -> Array<UInt8> {
         var bits: Array<Bool> = Array<Bool>()
 
         var copy: BigInt = self
@@ -54,20 +54,20 @@ extension BigInt {
     }
 }
 
-struct mod_int: AdditiveArithmetic, Equatable, CustomStringConvertible {
-    let value: BigInt
-    let modulus: BigInt
+public struct mod_int: AdditiveArithmetic, Equatable, CustomStringConvertible {
+    public let value: BigInt
+    public let modulus: BigInt
 
-    var description: String {"(val: \(value), mod: \(modulus))"}
+    public var description: String {"(val: \(value), mod: \(modulus))"}
 
-    static func from(value: BigInt) -> mod_int {
+    public static func from(value: BigInt) -> mod_int {
         mod_int(
                 value: value,
                 modulus: 0
         )
     }
 
-    init(value: BigInt, modulus: BigInt) {
+    public init(value: BigInt, modulus: BigInt) {
         if (modulus == 0) {
             self.value = value
         } else {
@@ -76,15 +76,15 @@ struct mod_int: AdditiveArithmetic, Equatable, CustomStringConvertible {
         self.modulus = modulus
     }
 
-    static var zero: mod_int {
+    public static var zero: mod_int {
         mod_int(value: 0, modulus: 0)
     }
 
-    var magnitude: mod_int {
+    public var magnitude: mod_int {
         mod_int(value: BigInt(value.magnitude), modulus: modulus)
     }
 
-    func to_bytes() -> Array<UInt8> {
+    public func to_bytes() -> Array<UInt8> {
         var bytes: Array<UInt8> = Array<UInt8>();
         bytes.append(sign_to_u8(sign: value.sign))
         bytes.append(contentsOf: value.to_bytes_le())
@@ -93,7 +93,7 @@ struct mod_int: AdditiveArithmetic, Equatable, CustomStringConvertible {
         return bytes
     }
 
-    func normalize() -> mod_int {
+    public func normalize() -> mod_int {
         if (modulus > 0) {
             return mod_int(value: value % modulus, modulus: modulus)
         } else {
@@ -101,14 +101,14 @@ struct mod_int: AdditiveArithmetic, Equatable, CustomStringConvertible {
         }
     }
 
-    static func +(lhs: mod_int, rhs: mod_int) -> mod_int {
+    public static func +(lhs: mod_int, rhs: mod_int) -> mod_int {
         mod_int(
                 value: lhs.value + rhs.value,
                 modulus: lhs.modulus
         ).normalize()
     }
 
-    static func -(lhs: mod_int, rhs: mod_int) -> mod_int {
+    public static func -(lhs: mod_int, rhs: mod_int) -> mod_int {
         if (lhs.modulus == 0) {
             return mod_int(
                     value: lhs.value - rhs.value,
@@ -119,14 +119,14 @@ struct mod_int: AdditiveArithmetic, Equatable, CustomStringConvertible {
         }
     }
 
-    static func *(lhs: mod_int, rhs: mod_int) -> mod_int {
+    public static func *(lhs: mod_int, rhs: mod_int) -> mod_int {
         mod_int(
                 value: lhs.value * rhs.value,
                 modulus: lhs.modulus
         ).normalize()
     }
 
-    prefix static func -(operand: mod_int) -> mod_int {
+    public prefix static func -(operand: mod_int) -> mod_int {
         mod_int(
                 value: operand.modulus == 0
                         ? -operand.value
@@ -135,7 +135,7 @@ struct mod_int: AdditiveArithmetic, Equatable, CustomStringConvertible {
         )
     }
 
-    static func /(lhs: mod_int, rhs: mod_int) -> mod_int {
+    public static func /(lhs: mod_int, rhs: mod_int) -> mod_int {
         assert(rhs.value != BigInt.zero)
 
         if (lhs.modulus == 0) {
@@ -155,7 +155,7 @@ struct mod_int: AdditiveArithmetic, Equatable, CustomStringConvertible {
         }
     }
 
-    static func %(lhs: mod_int, rhs: mod_int) -> mod_int {
+    public static func %(lhs: mod_int, rhs: mod_int) -> mod_int {
         assert(rhs.value != BigInt.zero)
 
         return mod_int(
@@ -164,7 +164,7 @@ struct mod_int: AdditiveArithmetic, Equatable, CustomStringConvertible {
         )
     }
 
-    func pow(power: mod_int) -> mod_int {
+    public func pow(power: mod_int) -> mod_int {
         if (modulus == 0) {
             return mod_int(
                     value: value.power(Int(power.value)),
@@ -178,18 +178,18 @@ struct mod_int: AdditiveArithmetic, Equatable, CustomStringConvertible {
         }
     }
 
-    static func ==(lhs: mod_int, rhs: mod_int) -> Bool {
+    public static func ==(lhs: mod_int, rhs: mod_int) -> Bool {
         return lhs.value == rhs.value
     }
 
-    static func rand(upper_bound: BigInt) -> mod_int {
+    public static func rand(upper_bound: BigInt) -> mod_int {
         rand(
                 upper_bound: upper_bound,
                 modulus: upper_bound
         )
     }
 
-    static func rand(upper_bound: BigInt, modulus: BigInt) -> mod_int {
+    public static func rand(upper_bound: BigInt, modulus: BigInt) -> mod_int {
         mod_int(
                 value: BigInt(BigUInt.randomInteger(lessThan: BigUInt(upper_bound))),
                 modulus: upper_bound
