@@ -2,7 +2,7 @@ import BigInt
 
 typealias PlainText = mod_int
 
-struct CipherText {
+public struct CipherText {
     let g_r: mod_int
     let g_v__s: mod_int
     let random: mod_int
@@ -16,7 +16,7 @@ struct CipherText {
     }
 }
 
-struct PublicKey {
+public struct PublicKey {
     let p: mod_int
     let q: mod_int
     let h: mod_int
@@ -49,7 +49,7 @@ struct PublicKey {
 
 }
 
-struct PrivateKey {
+public struct PrivateKey {
     let p: mod_int
     let q: mod_int
     let g: mod_int

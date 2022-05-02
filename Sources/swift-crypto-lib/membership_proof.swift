@@ -6,7 +6,7 @@ import BigInt
 import CryptoKit
 import Foundation
 
-struct MembershipProof {
+public struct MembershipProof {
     let s: Array<mod_int>
     let c: Array<mod_int>
 
