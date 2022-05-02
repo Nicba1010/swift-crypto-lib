@@ -6,11 +6,15 @@ import BigInt
 import CryptoKit
 import Foundation
 
-public struct PreImages: Codable {
+public struct PreImages: Codable, Equatable {
     let pre_images: Array<mod_int>
 
     public init(public_key: PublicKey, domain: Array<mod_int>) {
         pre_images = domain.map { element in mod_int.rand(upper_bound: public_key.q.value) }
+    }
+
+    public static func ==(lhs: PreImages, rhs: PreImages) -> Bool {
+        lhs.pre_images == rhs.pre_images
     }
 }
 

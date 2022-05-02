@@ -68,8 +68,10 @@ final class swift_crypto_libTests: XCTestCase {
         let images: Images = Images(generator: public_key.g, pre_images: pre_images)
 
         let pre_images_json: String = String(data: try JSONEncoder().encode(pre_images), encoding: .utf8)!
+        let pre_images_1: PreImages = try JSONDecoder().decode(PreImages.self, from: pre_images_json.data(using: .utf8)!)
         print(pre_images_json)
         print(pre_images)
+        XCTAssertEqual(pre_images, pre_images_1)
 
         let proof: CastAsIntendedProof = CastAsIntendedProof(
                 public_key: public_key,
