@@ -2,7 +2,7 @@ import BigInt
 
 public typealias PlainText = mod_int
 
-public struct CipherText {
+public struct CipherText: Codable {
     public let g_r: mod_int
     public let g_v__s: mod_int
     public let random: mod_int
@@ -16,7 +16,7 @@ public struct CipherText {
     }
 }
 
-public struct PublicKey {
+public struct PublicKey: Codable {
     public let p: mod_int
     public let q: mod_int
     public let h: mod_int
@@ -49,7 +49,7 @@ public struct PublicKey {
 
 }
 
-public struct PrivateKey {
+public struct PrivateKey: Codable {
     public let p: mod_int
     public let q: mod_int
     public let g: mod_int

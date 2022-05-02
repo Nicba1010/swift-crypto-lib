@@ -54,7 +54,7 @@ public extension BigInt {
     }
 }
 
-public struct mod_int: AdditiveArithmetic, Equatable, CustomStringConvertible {
+public struct mod_int: AdditiveArithmetic, Equatable, CustomStringConvertible, Codable {
     public let value: BigInt
     public let modulus: BigInt
 
@@ -194,6 +194,23 @@ public struct mod_int: AdditiveArithmetic, Equatable, CustomStringConvertible {
                 value: BigInt(BigUInt.randomInteger(lessThan: BigUInt(upper_bound))),
                 modulus: upper_bound
         )
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(value.description, forKey: .value)
+        try container.encode(modulus.description, forKey: .modulus)
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        value = BigInt(try container.decode(String.self, forKey: .value), radix: 10)!
+        modulus = BigInt(try container.decode(String.self, forKey: .modulus), radix: 10)!
+    }
+
+    enum CodingKeys: String, CodingKey {
+        case value
+        case modulus
     }
 }
 

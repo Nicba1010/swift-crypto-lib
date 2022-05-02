@@ -67,6 +67,10 @@ final class swift_crypto_libTests: XCTestCase {
         let pre_images: PreImages = PreImages(public_key: public_key, domain: [mod_int(value: 0, modulus: 0), mod_int(value: 1, modulus: 0)])
         let images: Images = Images(generator: public_key.g, pre_images: pre_images)
 
+        let pre_images_json: String = String(data: try JSONEncoder().encode(pre_images), encoding: .utf8)!
+        print(pre_images_json)
+        print(pre_images)
+
         let proof: CastAsIntendedProof = CastAsIntendedProof(
                 public_key: public_key,
                 plain_text: message,

@@ -6,7 +6,7 @@ import BigInt
 import CryptoKit
 import Foundation
 
-public struct PreImages {
+public struct PreImages: Codable {
     let pre_images: Array<mod_int>
 
     public init(public_key: PublicKey, domain: Array<mod_int>) {
@@ -14,7 +14,7 @@ public struct PreImages {
     }
 }
 
-public struct Images {
+public struct Images: Codable {
     let images: Array<mod_int>
 
     public init(generator: mod_int, pre_images: PreImages) {
@@ -24,7 +24,7 @@ public struct Images {
     }
 }
 
-public struct CastAsIntendedProof {
+public struct CastAsIntendedProof: Codable {
     let s1, s2, h1, h2: Array<mod_int>
     let hash_result: mod_int
 
